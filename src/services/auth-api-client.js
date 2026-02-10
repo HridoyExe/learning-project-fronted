@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const authApiClient = axios.create({
-  baseURL: (import.meta.env.VITE_API_URL || "https://learning-project-5618.vercel.app/api/v1").replace(/\/+$/, '') + '/'
+  baseURL: "https://learning-project-5618.vercel.app/api/v1/",
 });
 
 authApiClient.interceptors.request.use(
@@ -9,9 +9,9 @@ authApiClient.interceptors.request.use(
     const token = localStorage.getItem("authTokens");
 
     if (token) {
-      const parsedToken = JSON.parse(token);
-      if (parsedToken?.access) {
-        config.headers.Authorization = `JWT ${parsedToken.access}`;
+      const accessToken = JSON.parse(token)?.access;
+      if (accessToken) {
+        config.headers.Authorization = `JWT ${accessToken}`;
       }
     }
 

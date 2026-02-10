@@ -39,15 +39,12 @@ const useCart = () => {
         }
         if (!currentCartId) throw new Error("Cart not available");
 
-        const response = await authApiClient.post(
+        await authApiClient.post(
           `carts/${currentCartId}/items/`,
           { product_id, quantity }
         );
-        // Update local cart state
-        setCart((prev) => ({
-          ...prev,
-          items: [...(prev?.items || []), response.data],
-        }));
+        // Re-fetch the full cart to get updated totals and items
+        await createOrGetCart();
       } catch (error) {
         console.log("Error adding items to cart:", error);
       } finally {

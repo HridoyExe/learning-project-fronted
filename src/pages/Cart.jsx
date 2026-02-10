@@ -9,7 +9,9 @@ const Cart = () => {
   const { cart, cartId, loading, createOrGetCart, updateCartItemQuantity, deleteCartItems } = useCartContext();
   const [localCart, setLocalCart] = useState(cart);
 
-  useEffect(() => { if (!cart && !loading) createOrGetCart(); }, [createOrGetCart, cart, loading]);
+  useEffect(() => {
+    createOrGetCart();
+  }, [createOrGetCart]);
   useEffect(() => { setLocalCart(cart); }, [cart]);
 
   const handleUpdateQuantity = async (itemId, newQuantity) => {

@@ -27,14 +27,14 @@ export default function Dashboard() {
       setLoading(true);
       try {
         const [productsRes, ordersRes] = await Promise.all([
-          apiClient.get("/products/"),
-          authApiClient.get("/orders/")
+          apiClient.get("products/"),
+          authApiClient.get("orders/")
         ]);
 
         let userCount = 0;
         if (user?.is_staff) {
           try {
-            const usersRes = await authApiClient.get("/auth/users/");
+            const usersRes = await authApiClient.get("auth/users/");
             userCount = usersRes.data.length || usersRes.data.count || 0;
           } catch (err) {
             console.log("User fetch failed", err);

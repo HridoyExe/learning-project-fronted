@@ -13,7 +13,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     setLoading(true);
-    apiClient.get(`/products/${productId}`)
+    apiClient.get(`products/${productId}/`)
       .then(res => setProduct(res.data))
       .catch(err => {
         console.error(err);

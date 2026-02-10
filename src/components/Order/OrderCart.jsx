@@ -12,7 +12,7 @@ const OrderCart = ({ order, onCancel }) => {
     const newStatus = event.target.value;
     try {
       const response = await authApiClient.patch(
-        `/orders/${order.id}/update_status/`,
+        `orders/${order.id}/update_status/`,
         { status: newStatus }
       );
       if (response.status === 200) {
@@ -39,7 +39,7 @@ const OrderCart = ({ order, onCancel }) => {
   const handlePayment = async () => {
     setLoading(true);
     try {
-      const response = await authApiClient.post("/payment/initiate/", {
+      const response = await authApiClient.post("payment/initiate/", {
         amount: order.total_price,
         orderId: order.id,
         numItems: order.items?.length,
@@ -84,13 +84,12 @@ const OrderCart = ({ order, onCancel }) => {
             </select>
           ) : (
             <span
-              className={`badge badge-outline ${
-                status === "Not Paid"
+              className={`badge badge-outline ${status === "Not Paid"
                   ? "badge-error"
                   : status === "Canceled"
-                  ? "badge-neutral"
-                  : "badge-success"
-              }`}
+                    ? "badge-neutral"
+                    : "badge-success"
+                }`}
             >
               {status}
             </span>

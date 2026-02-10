@@ -12,7 +12,7 @@ const useCart = () => {
   const createOrGetCart = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await authApiClient.post("/carts/");
+      const response = await authApiClient.post("carts/");
       localStorage.setItem("cartId", response.data.id);
       setCartId(response.data.id);
       setCart(response.data);
@@ -40,7 +40,7 @@ const useCart = () => {
         if (!currentCartId) throw new Error("Cart not available");
 
         const response = await authApiClient.post(
-          `/carts/${currentCartId}/items/`,
+          `carts/${currentCartId}/items/`,
           { product_id, quantity }
         );
         // Update local cart state
@@ -64,7 +64,7 @@ const useCart = () => {
     async (itemId, quantity) => {
       try {
         const response = await authApiClient.patch(
-          `/carts/${cartId}/items/${itemId}/`,
+          `carts/${cartId}/items/${itemId}/`,
           { quantity }
         );
         // Update local cart state
@@ -87,7 +87,7 @@ const useCart = () => {
   const deleteCartItems = useCallback(
     async (itemId) => {
       try {
-        await authApiClient.delete(`/carts/${cartId}/items/${itemId}/`);
+        await authApiClient.delete(`carts/${cartId}/items/${itemId}/`);
         // Update local cart state
         setCart((prev) => ({
           ...prev,

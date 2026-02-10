@@ -49,7 +49,7 @@ const Checkout = () => {
                 payment_method: formData.paymentMethod,
             };
 
-            const response = await authApiClient.post("/orders/", orderData);
+            const response = await authApiClient.post("orders/", orderData);
 
             if (response.status === 201) {
                 // Clear cart ID from local storage as it's now converted to an order
@@ -60,7 +60,7 @@ const Checkout = () => {
                 if (formData.paymentMethod === "online") {
                     // Initiate Payment
                     try {
-                        const paymentRes = await authApiClient.post("/payment/initiate/", {
+                        const paymentRes = await authApiClient.post("payment/initiate/", {
                             order_id: response.data.id,
                             amount: total
                         });

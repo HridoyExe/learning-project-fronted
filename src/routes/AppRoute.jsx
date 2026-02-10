@@ -22,22 +22,24 @@ import ResendEmail from "../components/Dashboard/Profile/ResendEmail";
 import ForgetPassword from "../components/Dashboard/Profile/ForgetPassword";
 import ResetPasswordConfirm from "../components/Dashboard/Profile/ResetPasswordConfirm";
 import ProductDetail from "../pages/ProductDetail";
-import Welcome from "../pages/Welcome";
-
 const AppRoute = () => {
   return (
     <Routes>
       {/* Public Routes */}
       <Route element={<MainLayout />}>
-        {/* entry point is the welcome page */}
-        <Route index element={<Welcome />} />
+        {/* entry point is the home page */}
+        <Route index element={<Home />} />
+        <Route path="home" element={<Home />} />
 
-        {/* Protected Core Pages */}
-        <Route path="home" element={<PrivateRoute><Home /></PrivateRoute>} />
-        <Route path="shop" element={<PrivateRoute><Shop /></PrivateRoute>} />
-        <Route path="shop/:productId" element={<PrivateRoute><ProductDetail /></PrivateRoute>} />
-        <Route path="about" element={<PrivateRoute><About /></PrivateRoute>} />
-        <Route path="contact" element={<PrivateRoute><Contact /></PrivateRoute>} />
+        {/* Public Core Pages */}
+        <Route path="shop" element={<Shop />} />
+        <Route path="shop/:productId" element={<ProductDetail />} />
+        <Route path="about" element={<About />} />
+        <Route path="contact" element={<Contact />} />
+
+        {/* Protected Store Pages */}
+        <Route path="cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
+        <Route path="checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
 
         {/* Auth Pages (Public) */}
         <Route path="login" element={<Login />} />
@@ -59,9 +61,7 @@ const AppRoute = () => {
       >
         <Route index element={<Dashboard />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="cart" element={<Cart />} />
         <Route path="orders" element={<Orders />} />
-        <Route path="checkout" element={<Checkout />} />
         <Route path="payment/success" element={<PaymentSuccess />} />
         <Route path="products/add" element={<AddProducts />} />
       </Route>

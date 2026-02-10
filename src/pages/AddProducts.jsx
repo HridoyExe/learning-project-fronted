@@ -12,12 +12,12 @@ const AddProducts = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    apiClient.get("/categories/").then(res => setCategories(res.data));
+    apiClient.get("categories/").then(res => setCategories(res.data));
   }, []);
 
   const handleAddProduct = async (data) => {
     try {
-      const productRes = await authApiClient.post('/products/', data);
+      const productRes = await authApiClient.post('products/', data);
       setProductId(productRes.data.id);
     } catch (error) {
       console.log("Adding Product Error", error);
@@ -37,7 +37,7 @@ const AddProducts = () => {
       for (const image of images) {
         const formData = new FormData();
         formData.append("image", image);
-        await authApiClient.post(`/products/${productId}/images/`, formData);
+        await authApiClient.post(`products/${productId}/images/`, formData);
       }
     } catch (error) {
       console.log("Error Uploading Images", error);

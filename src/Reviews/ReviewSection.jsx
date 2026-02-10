@@ -18,7 +18,7 @@ const ReviewSection = () => {
   const fetchReviews = async () => {
     setLoading(true);
     try {
-      const res = await apiClient.get(`/products/${productId}/reviews/`);
+      const res = await apiClient.get(`products/${productId}/reviews/`);
       setReviews(res.data);
     } catch (error) {
       console.log("Error fetching reviews", error);
@@ -29,7 +29,7 @@ const ReviewSection = () => {
 
   const checkUserPermission = async () => {
     try {
-      const res = await authApiClient.get(`/orders/has_ordered/${productId}/`);
+      const res = await authApiClient.get(`orders/has_ordered/${productId}/`);
       setUserCanReview(res.data.HasOrder);
     } catch (error) {
       console.log(error);
@@ -38,7 +38,7 @@ const ReviewSection = () => {
 
   const handleSubmitReview = async (data) => {
     try {
-      await authApiClient.post(`/products/${productId}/reviews/`, data);
+      await authApiClient.post(`products/${productId}/reviews/`, data);
       fetchReviews();
     } catch (error) {
       console.log("Error submitting review", error);
@@ -47,7 +47,7 @@ const ReviewSection = () => {
 
   const handleUpdateReview = async (reviewId) => {
     try {
-      await authApiClient.put(`/products/${productId}/reviews/${reviewId}/`, editReview);
+      await authApiClient.put(`products/${productId}/reviews/${reviewId}/`, editReview);
       setEditingId(null);
       fetchReviews();
     } catch (error) {
@@ -57,7 +57,7 @@ const ReviewSection = () => {
 
   const handleDeleteReview = async (reviewId) => {
     try {
-      await authApiClient.delete(`/products/${productId}/reviews/${reviewId}/`);
+      await authApiClient.delete(`products/${productId}/reviews/${reviewId}/`);
       fetchReviews();
     } catch (error) {
       console.log(error);

@@ -36,7 +36,7 @@ const useAuth = () => {
     const fetchUserProfile = async () => {
         setLoading(true);
         try {
-            const response = await apiClient.get("/auth/users/me", {
+            const response = await apiClient.get("auth/users/me/", {
                 headers: { Authorization: `JWT ${authToken?.access}` },
             });
             setUser(response.data);
@@ -52,7 +52,7 @@ const useAuth = () => {
     const updateUserProfile = async (data) => {
         setErrorMsg("");
         try {
-            const response = await apiClient.put("/auth/users/me", data, {
+            const response = await apiClient.put("auth/users/me/", data, {
                 headers: { Authorization: `JWT ${authToken?.access}` },
             });
             setUser(response.data); // update local user state
@@ -66,7 +66,7 @@ const useAuth = () => {
     const changePassword = async (data) => {
         setErrorMsg("");
         try {
-            await apiClient.post("/auth/users/set_password/", data, {
+            await apiClient.post("auth/users/set_password/", data, {
                 headers: { Authorization: `JWT ${authToken?.access}` },
             });
             return { success: true, message: "Password changed successfully" };
@@ -93,7 +93,7 @@ const useAuth = () => {
     const registerUser = async (userData) => {
         setErrorMsg("");
         try {
-            await apiClient.post("/auth/users/", userData);
+            await apiClient.post("auth/users/", userData);
             return {
                 success: true,
                 message: "Registration successful! Check your email to activate your account",
@@ -115,7 +115,7 @@ const useAuth = () => {
     const resendActivation = async (data) => {
         setErrorMsg("");
         try {
-            await apiClient.post("/auth/users/resend_activation/", data);
+            await apiClient.post("auth/users/resend_activation/", data);
             return { success: true, message: "Activation email sent! Please check your mail." };
         } catch (error) {
             return handleApiError(error);
@@ -126,7 +126,7 @@ const useAuth = () => {
     const forgetPassword = async (data) => {
         setErrorMsg("");
         try {
-            await apiClient.post("/auth/users/reset_password/", data);
+            await apiClient.post("auth/users/reset_password/", data);
             return { success: true, message: "Password reset link has been sent to your email." };
         } catch (error) {
             return handleApiError(error);
@@ -137,7 +137,7 @@ const useAuth = () => {
     const resetPasswordConfirm = async (data) => {
         setErrorMsg("");
         try {
-            await apiClient.post("/auth/users/reset_password_confirm/", data);
+            await apiClient.post("auth/users/reset_password_confirm/", data);
             return { success: true, message: "Password has been reset successfully!" };
         } catch (error) {
             return handleApiError(error);

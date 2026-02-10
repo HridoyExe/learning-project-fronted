@@ -9,7 +9,7 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await authApiClient.get("/orders/");
+        const res = await authApiClient.get("orders/");
         setOrders(res.data);
       } catch (error) {
         console.log(error);
@@ -22,7 +22,7 @@ const Orders = () => {
 
   const handleCancelOrder = async (orderId) => {
     try {
-      const response = await authApiClient.post(`/orders/${orderId}/cancel/`);
+      const response = await authApiClient.post(`orders/${orderId}/cancel/`);
       if (response.status === 200) {
         setOrders(prevOrders =>
           prevOrders.map(order => order.id === orderId ? { ...order, status: "Canceled" } : order)

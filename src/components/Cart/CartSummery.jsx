@@ -45,7 +45,7 @@ const CartSummary = ({ totalPrice, itemCount }) => {
         </div>
 
         <Link
-          to="/dashboard/checkout"
+          to="/checkout"
           className="btn btn-primary btn-lg w-full"
         >
           Proceed To Checkout

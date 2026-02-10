@@ -1,9 +1,9 @@
 import { FiMenu, FiX, FiLogOut } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const Navbar = ({ sidebarOpen }) => {
-  const { logoutUser } = useAuth();
+  const { logoutUser } = useAuthContext();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -13,7 +13,7 @@ const Navbar = ({ sidebarOpen }) => {
 
   return (
     <div className="navbar bg-base-100 border-b px-4 sticky top-0 z-20">
-      
+
       {/* Mobile toggle */}
       <div className="flex-none lg:hidden">
         <label htmlFor="drawer-toggle" className="btn btn-ghost btn-square">

@@ -19,12 +19,17 @@ const Profile = () => {
   const onSubmit = async (data) => {
     setSuccessMsg("");
     try {
-      const res = await updateUserProfile({
-        first_name: data.first_name,
-        last_name: data.last_name,
-        address: data.address,
-        phone_number: data.phone_number,
-      });
+      // Include username if it exists in the current user object but not in form
+      const updateData = {
+        ...data,
+      };
+
+      if (user?.username) {
+        updateData.username = user.username;
+      }
+
+      const res = await updateUserProfile(updateData);
+
       if (res.success) {
         setSuccessMsg("Profile updated successfully!");
         setIsEditing(false);
@@ -149,10 +154,11 @@ const Profile = () => {
                       <input
                         type="tel"
                         disabled={!isEditing}
-                        className={`input-professional !pl-14 w-full ${!isEditing && "bg-gray-50 text-gray-500 border-transparent"}`}
-                        {...register("phone_number")}
+                        className={`input-professional !pl-14 w-full ${!isEditing && "bg-gray-50 text-gray-500 border-transparent"} ${errors.phone_number ? "border-red-500" : ""}`}
+                        {...register("phone_number", { required: "Phone number is required" })}
                       />
                     </div>
+                    {errors.phone_number && <span className="text-xs text-red-500 mt-1">{errors.phone_number.message}</span>}
                   </div>
 
                   <div className="form-control">
@@ -162,10 +168,11 @@ const Profile = () => {
                       <input
                         type="text"
                         disabled={!isEditing}
-                        className={`input-professional !pl-14 w-full ${!isEditing && "bg-gray-50 text-gray-500 border-transparent"}`}
-                        {...register("address")}
+                        className={`input-professional !pl-14 w-full ${!isEditing && "bg-gray-50 text-gray-500 border-transparent"} ${errors.address ? "border-red-500" : ""}`}
+                        {...register("address", { required: "Address is required" })}
                       />
                     </div>
+                    {errors.address && <span className="text-xs text-red-500 mt-1">{errors.address.message}</span>}
                   </div>
                 </div>
               </div>

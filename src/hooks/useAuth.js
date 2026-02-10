@@ -52,7 +52,7 @@ const useAuth = () => {
     const updateUserProfile = async (data) => {
         setErrorMsg("");
         try {
-            const response = await apiClient.put("auth/users/me/", data, {
+            const response = await apiClient.patch("auth/users/me/", data, {
                 headers: { Authorization: `JWT ${authToken?.access}` },
             });
             setUser(response.data); // update local user state

@@ -20,7 +20,7 @@ const Sidebar = () => {
       { to: "/dashboard", icon: FiBarChart2, label: "Dashboard" },
       { to: "/profile", icon: FiUsers, label: "Profile" },
       { to: "/dashboard/products/add", icon: FiPlusCircle, label: "Add Product" },
-      { to: "/dashboard/cart", icon: MdShoppingCart, label: "My Cart" },
+      { to: "/cart", icon: MdShoppingCart, label: "My Cart" },
       { to: "/dashboard/orders", icon: FiShoppingCart, label: "My Orders" },
       // { to: "/products", icon: FiPackage, label: "Products" }, // Pending implementation
       // { to: "/categories", icon: FiTag, label: "Categories" }, // Pending implementation
@@ -30,7 +30,7 @@ const Sidebar = () => {
       { to: "/dashboard", icon: FiBarChart2, label: "Dashboard" },
       { to: "/profile", icon: FiUsers, label: "Profile" },
       { to: "/dashboard/orders", icon: FiShoppingCart, label: "My Orders" },
-      { to: "/dashboard/cart", icon: MdShoppingCart, label: "My Cart" },
+      { to: "/cart", icon: MdShoppingCart, label: "My Cart" },
     ];
 
   return (

@@ -39,7 +39,7 @@ const PaymentSuccess = () => {
 
                     <div className="flex flex-col sm:flex-row gap-4">
                         <Link
-                            to="/orders"
+                            to="/dashboard/orders"
                             className="btn-professional flex-1 flex items-center justify-center gap-2 py-4"
                         >
                             <FiPackage /> View Orders

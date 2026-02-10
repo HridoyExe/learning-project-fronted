@@ -3,76 +3,91 @@ import useAuthContext from "../../../hooks/useAuthContext";
 import { useState } from "react";
 import ErrorAlert from "../../ErrorAlert";
 import { Link } from "react-router-dom";
+
 const ResendEmail = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm()
-    const { errorMsg, resendActivation } = useAuthContext();
-    const [loading, setLoading] = useState(false)
-    const [successMsg, setSuccessMsg] = useState("");
-    const onSubmit = async (data) => {
-        setLoading(true)
-        setSuccessMsg("");
-        try {
-            const result = await resendActivation(data);
-            if (result.success) {
-                setSuccessMsg("Activation email sent! Please check your inbox.");
-            }
-        } catch (error) {
-            console.log("Resend Failed", error);
-        } finally {
-            setLoading(false);
-        }
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { errorMsg, resendActivation } = useAuthContext();
+  const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+
+  const onSubmit = async (data) => {
+    setLoading(true);
+    setSuccessMsg("");
+    try {
+      const result = await resendActivation(data);
+      if (result.success) {
+        setSuccessMsg("Activation email sent! Please check your inbox.");
+      }
+    } finally {
+      setLoading(false);
     }
-    return (
-        <div className="flex justify-center items-center px-4 py-12 bg-base-200 min-h-screen">
-            <div className="card w-full max-w-md bg-base-100 shadow-xl">
-                <div className="card-body">
-                    {/* Alerts */}
-                    {errorMsg && <ErrorAlert error={errorMsg} />}
-                    {successMsg && (
-                        <div className="alert alert-success shadow-sm mb-4">
-                            <span>{successMsg}</span>
-                        </div>
-                    )}
+  };
 
-                    <h2 className="font-bold text-2xl card-title">Resend Activation</h2>
-                    <p className="text-base-content/70">
-                        Enter your registered email to get a new activation link.
-                    </p>
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
+      <div className="w-full max-w-md">
+        <div className="card bg-base-100 shadow-xl border border-base-300">
+          <div className="card-body p-8 space-y-5">
 
-                    <form className="space-y-4 mt-4" onSubmit={handleSubmit(onSubmit)}>
-                   
-                        <div className="form-control">
-                            <label className="label" htmlFor="email">
-                                <span className="label-text">Email</span>
-                            </label>
-                            <input
-                                id="email"
-                                type="email"
-                                placeholder="name@example.com"
-                                className={`input input-bordered w-full ${errors.email ? "border-red-500" : ""}`}
-                                {...register("email", { required: "Email is required" })}
-                            />
-                            {errors.email && (
-                                <span className="text-red-500 text-sm mt-1">{errors.email.message}</span>
-                            )}
-                        </div>
-
-                        {/* Submit Button */}
-                        <button type="submit" className="btn btn-primary w-full" disabled={loading}>
-                            {loading ? "Sending..." : "Send Activation Link"}
-                        </button>
-                    </form>
-
-                    {/* Back to Login */}
-                    <div className="text-center mt-4">
-                        <Link className="link link-primary text-sm" to="/login">
-                            Back to Login
-                        </Link>
-                    </div>
-                </div>
+            <div className="text-center space-y-2">
+              <h2 className="text-2xl font-bold text-primary">
+                Resend Activation
+              </h2>
+              <p className="text-sm text-base-content/60">
+                Enter your registered email to receive a new activation link.
+              </p>
             </div>
+
+            {errorMsg && <ErrorAlert error={errorMsg} />}
+            {successMsg && (
+              <div className="alert alert-success text-sm">
+                {successMsg}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text font-semibold">Email</span>
+                </label>
+                <input
+                  type="email"
+                  placeholder="you@example.com"
+                  className={`input input-bordered w-full ${errors.email ? "input-error" : ""
+                    }`}
+                  {...register("email", { required: "Email is required" })}
+                />
+                {errors.email && (
+                  <p className="text-error text-xs mt-1">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn btn-primary w-full"
+              >
+                {loading ? (
+                  <span className="loading loading-spinner"></span>
+                ) : (
+                  "Send Activation Link"
+                )}
+              </button>
+            </form>
+
+            <div className="text-center">
+              <Link to="/login" className="text-primary font-semibold hover:underline text-sm">
+                ← Back to Login
+              </Link>
+            </div>
+
+          </div>
         </div>
-    );
-}; 
+      </div>
+    </div>
+  );
+};
 
 export default ResendEmail;

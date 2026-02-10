@@ -4,22 +4,22 @@ import Pagination from "./Pagination";
 import useFetchProduct from "../../hooks/useFetchProducts";
 import FilterSection from "./FilterSection";
 import useFetchCategory from "../../hooks/useFetchCategory";
+import ErrorAlert from "../ErrorAlert";
 
 const ShopPage = () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const [priceRange, setPriceRange] = useState([0, 1000]);
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
+    const [sortOrder, setSortOrder] = useState("");
 
-    const [currentPage, setCurrentPage] = useState(1)
-    const [priceRange, setPriceRange] = useState([0, 1000])
-    const [selectedCategory, setSelectedCategory] = useState("")
-    const [searchQuery, setSearchQuery] = useState("")
-    const [sortOrder, setSortOrder] = useState("")
-
-    const { products, loading, totalPages } = useFetchProduct(
+    const { products, loading, totalPages, error } = useFetchProduct(
         currentPage,
         priceRange,
         selectedCategory,
         searchQuery,
         sortOrder
-    )
+    );
 
     const categories = useFetchCategory();
 
@@ -28,9 +28,9 @@ const ShopPage = () => {
             const newRange = [...prev];
             newRange[index] = value;
             return newRange;
-        })
-        setCurrentPage(1)
-    }
+        });
+        setCurrentPage(1);
+    };
 
     return (
         <div className="max-w-7xl mx-auto py-8 px-4">
@@ -41,27 +41,38 @@ const ShopPage = () => {
                 handlePriceChange={handlePriceChange}
                 categories={categories}
                 selectedCategory={selectedCategory}
-                handleChangeCategory={setSelectedCategory}
+                handleChangeCategory={(value) => {
+                    setSelectedCategory(value);
+                    setCurrentPage(1);
+                }}
                 searchQuery={searchQuery}
-                handleSearchQuery={setSearchQuery}  
-                sortOrder = {sortOrder}
-                handleSortOrder = {setSortOrder}
+                handleSearchQuery={(value) => {
+                    setSearchQuery(value);
+                    setCurrentPage(1);
+                }}
+                order={sortOrder}
+                handleSortOrder={(value) => {
+                    setSortOrder(value);
+                    setCurrentPage(1);
+                }}
             />
 
+            {error && <ErrorAlert error={error} />}
 
             <ProductList products={products} loading={loading} />
 
-            <Pagination
-                totalPages={totalPages}
-                currentPage={currentPage}
-                handlePageChange={setCurrentPage}
-            />
+            {totalPages > 1 && (
+                <Pagination
+                    totalPages={totalPages}
+                    currentPage={currentPage}
+                    handlePageChange={setCurrentPage}
+                />
+            )}
         </div>
     );
 };
 
 export default ShopPage;
-
 
 
 /* const fetchProducts = ()=> {

@@ -1,40 +1,34 @@
 import { useState } from "react";
+import { Outlet } from "react-router";
 import Navbar from "../components/Dashboard/Navbar";
 import Sidebar from "../components/Dashboard/Sidebar";
-import { Outlet } from "react-router";
-
 const DashboardLayout = () => {
-      const [sidebarOpen, setSidebarOpen] = useState(false);
-    
-      const toggleSidebar = () => {
-        setSidebarOpen(!sidebarOpen);
-      };
-    return (
-        <div className="drawer lg:drawer-open">
-            {/* Mobile drawer checkbox */}
-            <input
-                id="drawer-toggle"
-                type="checkbox"
-                className="drawer-toggle"
-                checked={sidebarOpen}
-                onChange={toggleSidebar}
-            />
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-            {/* Page content */}
-            <div className="drawer-content flex flex-col">
-                {/* Navbar */}
-                <Navbar sidebarOpen={sidebarOpen} ></Navbar>
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
-                {/* Main content */}
-                <main className="p-6">
-                    <Outlet></Outlet>
-                </main>
-            </div>
+  return (
+    <div className="drawer lg:drawer-open">
+      <input
+        id="drawer-toggle"
+        type="checkbox"
+        className="drawer-toggle"
+        checked={sidebarOpen}
+        onChange={toggleSidebar}
+      />
 
-            {/* Sidebar */}
-            <Sidebar />
-        </div>
-    );
+      {/* Page Content */}
+      <div className="drawer-content flex flex-col">
+        <Navbar sidebarOpen={sidebarOpen} />
+        <main className="p-6">
+          <Outlet />
+        </main>
+      </div>
+
+      {/* Sidebar */}
+      <Sidebar />
+    </div>
+  );
 };
 
 export default DashboardLayout;

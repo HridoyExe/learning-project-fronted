@@ -5,84 +5,81 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import ErrorAlert from "../ErrorAlert";
-import apiClient from "../../services/api-client"; // Assuming API client setup
+import apiClient from "../../services/api-client";
+import { Link } from "react-router-dom";
 
-/**
- * Renders the section for 'Trending Products' as a carousel.
- * Fetches product data from the API upon component mount.
- */
 const Product = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Data fetching effect
   useEffect(() => {
     setLoading(true);
     apiClient
-      .get("/products/") // Adjust endpoint as needed
+      .get("/products/")
       .then((res) => setProducts(res.data.results))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
 
   return (
-    <section className="bg-gray-50 py-16">
-      <div className="container mx-auto px-4 md:px-8">
-        
+    <section className="py-16 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4">
+
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-6">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 md:mb-0">
-            Trending Products
-          </h2>
-          <a
-            href="#" // Placeholder link for "View All"
-            className="btn btn-secondary px-6 py-3 rounded-full text-lg hover:scale-105 transition-transform duration-200"
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900">
+              Trending Products
+            </h2>
+            <p className="text-gray-600 mt-2">
+              Discover our most popular items
+            </p>
+          </div>
+
+          <Link
+            to="/shop"
+            className="mt-4 md:mt-0 inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700"
           >
-            View All
-          </a>
+            View All Products →
+          </Link>
         </div>
 
-        {/* Loading Spinner */}
+        {/* Loading */}
         {isLoading && (
-          <div className="flex justify-center items-center py-20">
-            <span className="loading loading-spinner loading-xl text-secondary"></span>
+          <div className="flex justify-center py-24">
+            <span className="loading loading-spinner loading-lg"></span>
           </div>
         )}
 
-        {/* Error Alert */}
+        {/* Error */}
         {error && <ErrorAlert error={error} />}
 
-        {/* Product Carousel (Swiper) */}
+        {/* Products Slider */}
         {!isLoading && !error && products.length > 0 && (
           <Swiper
             modules={[Navigation]}
-            spaceBetween={20}
-            slidesPerView={1}
+            spaceBetween={24}
             navigation
-            breakpoints={{ // Responsive settings for number of slides
+            breakpoints={{
               640: { slidesPerView: 2 },
               1024: { slidesPerView: 3 },
               1280: { slidesPerView: 4 },
             }}
-            className="mt-6"
           >
             {products.map((product) => (
-              <SwiperSlide key={product.id} className="flex justify-center">
-                {/* Wrapper div for consistent sizing inside SwiperSlide */}
-                <div className="w-full max-w-xs"> 
-                  <ProductItems product={product} />
-                </div>
+              <SwiperSlide key={product.id} className="h-auto">
+                <ProductItems product={product} />
               </SwiperSlide>
             ))}
           </Swiper>
         )}
 
-        {/* Empty State Message */}
+        {/* Empty */}
         {!isLoading && !error && products.length === 0 && (
-          <p className="text-center text-gray-500 mt-10 text-lg">
-            No Products Available
-          </p>
+          <div className="text-center py-24 text-gray-500">
+            No products available
+          </div>
         )}
       </div>
     </section>

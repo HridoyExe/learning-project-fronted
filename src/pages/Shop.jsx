@@ -1,11 +1,5 @@
 import ShopPage from "../components/Shop/ShopPage";
 
-const Shop = () => {
-    return (
-        <>
-            <ShopPage/>
-        </>
-    );
-};
+const Shop = () => <ShopPage />;
 
 export default Shop;

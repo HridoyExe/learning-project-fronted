@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthContext from "../hooks/useAuthContext";
-import ErrorAlert from "../components/ErrorAlert"
+import ErrorAlert from "../components/ErrorAlert";
 import { useState } from "react";
+import { FiMail, FiLock, FiArrowRight } from "react-icons/fi";
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -23,92 +24,120 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center px-4 py-12 bg-base-200 min-h-screen">
-      <div className="card w-full max-w-md bg-base-100 shadow-2xl border border-base-300">
-        <div className="card-body p-8">
-          
-          <div className="text-center mb-6">
-            <h2 className="text-3xl font-extrabold text-primary mb-2">Welcome Back</h2>
-            <p className="text-sm text-base-content/60">
-              Please sign in to your account
-            </p>
+    <div className="min-h-screen flex bg-white">
+      {/* Left Side - Image / Branding */}
+      <div className="hidden lg:flex lg:w-1/2 bg-blue-600 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-800 opacity-90"></div>
+        <div className="absolute inset-0" style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1574&q=80')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          mixBlendMode: "overlay"
+        }}></div>
+        <div className="relative z-10 w-full flex flex-col justify-center px-12 text-white">
+          <h1 className="text-5xl font-bold mb-6">Welcome Back!</h1>
+          <p className="text-xl text-blue-100 max-w-md">
+            Sign in to access your personalized shopping experience, track orders, and discover new arrivals.
+          </p>
+        </div>
+      </div>
+
+      {/* Right Side - Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gray-50/50">
+        <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">Sign In</h2>
+            <p className="text-gray-500">Access your account details</p>
           </div>
 
-          <div className="min-h-[50px]">
+          <div className="min-h-[20px] mb-4">
             {errorMsg && <ErrorAlert error={errorMsg} />}
           </div>
 
           <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
-            
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-semibold">Email Address</span>
-              </label>
-              <input
-                type="email"
-                placeholder="name@example.com"
-                className={`input input-bordered w-full focus:input-primary transition-all ${
-                  errors.email ? "input-error border-red-500" : ""
-                }`}
-                {...register("email", { required: "Email is required" })}
-              />
-              {errors.email && (
-                <span className="text-error text-xs mt-1">{errors.email.message}</span>
-              )}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                  <FiMail size={18} />
+                </div>
+                <input
+                  type="email"
+                  placeholder="name@company.com"
+                  className={`!pl-14 input-professional w-full transition-all duration-200 ${errors.email ? "border-red-500 focus:ring-red-200" : "focus:ring-blue-100"}`}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Invalid email address"
+                    }
+                  })}
+                />
+              </div>
+              {errors.email && <span className="text-red-500 text-xs mt-1 ml-1">{errors.email.message}</span>}
             </div>
 
-            <div className="form-control">
-              <div className="flex justify-between items-center mb-1">
-                <label className="label">
-                  <span className="label-text font-semibold">Password</span>
-                </label>
-                {/* CONNECTED: Forgot Password Route */}
-                <Link to="/forget-password" intrinsic="true" className="text-xs link link-hover text-primary font-medium italic">
-                   Forgot Password?
+            <div>
+              <div className="flex justify-between items-center mb-1.5">
+                <label className="block text-sm font-medium text-gray-700">Password</label>
+                <Link to="/forget-password" className="text-xs font-medium text-blue-600 hover:text-blue-700 hover:underline">
+                  Forgot password?
                 </Link>
               </div>
-              <input
-                type="password"
-                placeholder="••••••••"
-                className={`input input-bordered w-full focus:input-primary transition-all ${
-                  errors.password ? "input-error border-red-500" : ""
-                }`}
-                {...register("password", { required: "Password is required" })}
-              />
-              {errors.password && (
-                <span className="text-error text-xs mt-1">{errors.password.message}</span>
-              )}
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                  <FiLock size={18} />
+                </div>
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  className={`!pl-14 input-professional w-full transition-all duration-200 ${errors.password ? "border-red-500 focus:ring-red-200" : "focus:ring-blue-100"}`}
+                  {...register("password", { required: "Password is required" })}
+                />
+              </div>
+              {errors.password && <span className="text-red-500 text-xs mt-1 ml-1">{errors.password.message}</span>}
             </div>
 
-            <button 
-              type="submit" 
-              className={`btn btn-primary w-full text-white font-bold text-lg mt-2 ${loading ? "loading" : ""}`} 
+            <button
+              type="submit"
+              className={`btn-professional w-full py-3 text-base flex items-center justify-center gap-2 group ${loading ? "opacity-75 cursor-not-allowed" : "hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/30"
+                }`}
               disabled={loading}
             >
-              {loading ? "" : "Login"}
+              {loading ? (
+                <span className="loading loading-spinner loading-sm"></span>
+              ) : (
+                <>
+                  Sign In <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+                </>
+              )}
             </button>
           </form>
 
-          <div className="divider text-xs text-base-content/40 my-6">OR</div>
-          
-          <div className="space-y-4">
-            <p className="text-center text-sm">
-              New to Phimart?{" "}
-              <Link className="link link-primary font-bold" to="/register">
+          <div className="divider-clean my-8 relative flex items-center justify-center">
+            <span className="bg-white px-2 text-sm text-gray-500 z-10 relative">Or continue with</span>
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-200"></div>
+            </div>
+          </div>
+
+          <div className="text-center space-y-4">
+            <p className="text-sm text-gray-600">
+              Don't have an account?{" "}
+              <Link to="/register" className="text-blue-600 font-semibold hover:text-blue-700 hover:underline transition-colors">
                 Create Account
               </Link>
             </p>
 
-            <div className="bg-base-200/50 p-4 rounded-xl border border-dashed border-base-300 text-center">
-              <p className="text-xs text-base-content/70">
-                Didn&apos;t receive activation email? <br />
-                <Link className="link link-secondary font-bold inline-block mt-1" to="/resend-activation">
+            <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
+              <p className="text-xs text-blue-800">
+                Didnt receive the activation email?{" "}
+                <Link to="/resend-activation" className="font-semibold underline hover:text-blue-900">
                   Resend Link
                 </Link>
               </p>
             </div>
           </div>
-
         </div>
       </div>
     </div>
